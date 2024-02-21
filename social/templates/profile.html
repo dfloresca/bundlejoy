@@ -11,12 +11,17 @@
             {% if posts %}    
                 {% for post in posts %}
                 <div class="alert alert-dark" role="alert">
-                    {{ post }}
+                    {{ post.body }} <br/>
+                <small class="text-muted">
+                    ({{ post.created_at }}) by 
+                    @{{ post.user.username }}
+                </small>
                 </div> <br /> <br />
                 {% endfor %}
             {% endif %}
         </div>
         <div class="col-4">
+            <br/><br/><br/>
             <div class="card">
                 <h5 class="card-header">Follows</h5>
                 <div class="card-body">
