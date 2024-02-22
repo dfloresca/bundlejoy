@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Profile, Post
-from .forms import PostForm, SignUpForm
+from .forms import PostForm, SignUpForm, UserEditForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
@@ -96,7 +96,7 @@ def register_user(request):
 def update_user(request):
     if request.user.is_authenticated:
         current_user = User.objects.get(id=request.user.id)
-        form = SignUpForm(request.POST or None, instance=current_user)
+        form = UserEditForm(request.POST or None, instance=current_user)
         if form.is_valid():
             form.save()
             login(request, current_user)
