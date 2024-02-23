@@ -1,6 +1,6 @@
 from typing import Any
 from django import forms
-from .models import Post
+from .models import Post, Profile
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 
@@ -49,6 +49,7 @@ class UserEditForm(UserChangeForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
     first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
     last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
+    password = None  # remove password field from form
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
@@ -60,3 +61,11 @@ class UserEditForm(UserChangeForm):
         self.fields['username'].widget.attrs['placeholder'] = 'User Name'
         self.fields['username'].label = ''
         self.fields['username'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
+
+# profile extras form
+class ProfilePicForm(forms.ModelForm):  
+    profile_image = forms.ImageField(label="Profile Picture")  # a FileField!
+
+    class Meta:
+        model = Profile
+        fields = ("profile_image", )
