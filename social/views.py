@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Profile, Post
 from .forms import PostForm, SignUpForm, UserEditForm, ProfilePicForm
@@ -111,4 +111,17 @@ def update_user(request):
         return render(request, 'update_user.html', {'user_form':user_form, 'profile_form':profile_form})
     else:
         messages.success(request, ("You Must Be logged on. \n Returning Home"))
+        return redirect('home')
+    
+def post_like(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=pk)
+        if post.likes.filter(id=request.user.id):
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+        return redirect('home')
+
+    else:
+        messages.success(request, ("you Must be logged in"))
         return redirect('home')
