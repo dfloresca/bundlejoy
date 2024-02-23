@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
 {% if profile %}
@@ -11,12 +12,26 @@
             {% if posts %}    
                 {% for post in posts %}
                 <div class="alert alert-dark" role="alert">
-                    {{ post.body }} <br/>
-                <small class="text-muted">
-                    ({{ post.created_at }}) by 
-                    @{{ post.user.username }}
-                </small>
-                </div> <br /> <br />
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-1">
+                                {% if profile.profile_image %}
+                                    <img src="{{ profile.profile_image.url }}" width=50 height=50 class="img-fluid rounded-start" alt="{{profile.user.username}}"/>
+                                    {% else %}
+                                    <img src="{% static 'images/user.jpeg' %}" width=50 height=50 class="img-fluid rounded-start" alt="{{profile.user.username}}"/>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-11">
+                                {{ post.body }} <br/>
+                            <small class="text-muted">
+                                ({{ post.created_at }}) by 
+                                @{{ post.user.username }}
+                            </small>
+                            </div> <br /> <br />
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
             {% endif %}
         </div>
@@ -24,7 +39,7 @@
             <br/><br/><br/>
             
             {% if profile.profile_image %}
-                <img src="{{ profile.profile_image.url }}" width="200" height="auto"/>
+                <img src="{{ profile.profile_image.url }}" class="rounded-circle .img-fluid" width="auto" height="200"/>
             {% endif %}
             <br/><br/>
             <div class="card">
