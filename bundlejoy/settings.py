@@ -1,5 +1,13 @@
 from pathlib import Path
 import os 
+from dotenv import load_dotenv
+
+load_dotenv()
+
+#AWS Credentials from dotenv
+AWS_S3_ACCESS_KEY_ID = os.getenv('AWS_S3_ACCESS_KEY_ID')
+AWS_S3_SECRET_ACCESS_KEY = os.getenv('AWS_S3_SECRET_ACCESS_KEY')
+BUCKET_NAME = os.getenv('AWS_S3_STORAGE_BUCKET_NAME')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social'
+    'social',
+    'storages',
+    
 ]
 
 MIDDLEWARE = [
@@ -106,10 +116,31 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": BUCKET_NAME,
+            "file_overwrite":False,
+            "default_acl" : None,  # or whatever ACL you want to use.
+            
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": BUCKET_NAME,
+            "file_overwrite": False,
+            "default_acl": None,
+        },
+    },
+}
