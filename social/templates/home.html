@@ -29,9 +29,13 @@
                             - {{ post.number_of_likes }} likes - 
 
                         {% if user in post.likes.all %}
-                            <a href="{% url 'post_like' post.id %}">UnLike</a>
+                            <a href="{% url 'post_like' post.id %}">
+                                <i class="fa-solid fa-heart" style="color:red"></i>
+                            </a>
                         {% else %} 
-                            <a href="{% url 'post_like' post.id %}">Like</a>
+                            <a href="{% url 'post_like' post.id %}">
+                                <i class="fa fa-heart-o" style="color:red"></i>
+                            </a>
                         {% endif %}
                         </small>
                         </div> <br /> <br />
