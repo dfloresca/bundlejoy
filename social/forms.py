@@ -65,7 +65,11 @@ class UserEditForm(UserChangeForm):
 # profile extras form
 class ProfilePicForm(forms.ModelForm):  
     profile_image = forms.ImageField(label="Profile Picture")  # a FileField!
+    profile_bio = forms.CharField(label="Profile Bio", widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Profile Bio'}))
+    homepage_link = forms.CharField(label="Homepage Link", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Homepage Link'}))
+    facebook_link = forms.CharField(label="Facebook Link", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Facebook Link'}))
+    instagram_link = forms.CharField(label="Instagram Link", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Instagram Link'}))
 
     class Meta:
         model = Profile
-        fields = ("profile_image", )
+        fields = ("profile_image", "profile_bio", "homepage_link", "facebook_link", "instagram_link")
