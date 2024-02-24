@@ -134,3 +134,19 @@ def post_show(request, pk):
             else:
                 messages.success(request, ("That post does not exist"))
                 return redirect('home')
+            
+def post_delete(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=pk)
+        # Check to see if it is your post
+        if request.user.username == post.user.username:
+            # Delete the Post
+            post.delete()
+            messages.success(request, ("The post has been deleted"))
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.success(request, ("That's not your post"))
+            return redirect('home')
+    else:
+        messages.success(request, ("Please login to continue"))
+        return redirect(request.META.get('HTTP_REFERER'))
