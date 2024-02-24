@@ -125,3 +125,12 @@ def post_like(request, pk):
     else:
         messages.success(request, ("you Must be logged in"))
         return redirect('home')
+    
+def post_show(request, pk):
+        if request.user.is_authenticated:
+            post = get_object_or_404(Post, id=pk)
+            if post:
+                return render(request, 'show_post.html', {'post':post})
+            else:
+                messages.success(request, ("That post does not exist"))
+                return redirect('home')
