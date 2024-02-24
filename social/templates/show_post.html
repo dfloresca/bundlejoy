@@ -7,9 +7,8 @@
     <div class="row">
         <div class="col-8">
 
-            <h1>Posts</h1>
+            
             <br />
-            {% for post in posts %}
             <div class="alert alert-dark" role="alert">
                 <div class="container">
                     <div class="row">
@@ -26,24 +25,22 @@
                         <small class="text-muted">
                             ({{ post.created_at }}) by 
                             @{{ post.user.username }}
-                            &nbsp;&nbsp; 
-                            {{ post.number_of_likes }} 
-                        
+                            &nbsp;&nbsp; {{ post.number_of_likes }}
+
                         {% if user in post.likes.all %}
-                            <a href="{% url 'post_like' post.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
+                            <a href="{% url 'post_like' post.id %}">
+                                <i class="fa-solid fa-heart" style="color:red"></i>
+                            </a>
                         {% else %} 
-                            <a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
+                            <a href="{% url 'post_like' post.id %}">
+                                <i class="fa fa-heart-o" style="color:red"></i>
+                            </a>
                         {% endif %}
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="{% url 'post_show' post.id %}">
-                            <i class="fa-solid fa-share" style="color:blue"></i>
-                        </a>
                         </small>
                         </div> <br /> <br />
                     </div>
                 </div>
             </div> <br /> <br />
-            {% endfor %}
         </div>
         <div class="col-4">
             <br /><br /><br />
