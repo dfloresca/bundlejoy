@@ -36,8 +36,12 @@
                         {% endif %}
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <a href="{% url 'post_show' post.id %}">
-                        <i class="fa-solid fa-share" style="color:blue"></i>
-                        </a>
+                        <i class="fa-solid fa-share" style="color:blue"></i></a>
+                        &nbsp;
+                        {% if request.user.username == profile.user.username %}
+                            <a href="{% url 'post_delete' post.id %}">
+                            <i class="fa-solid fa-trash" style="color: blue"></i></a>
+                        {% endif %}
                             </small>
                             </div> <br /> <br />
                         </div>
@@ -54,15 +58,15 @@
             {% endif %}
             <br/><br/>
             {% if profile.homepage_link %}
-                <a href="https:{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color:gray"></i></a>
+                <a href="https:{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color:blue"></i></a>
             {% endif %}
             &nbsp;&nbsp;
             {% if profile.facebook_link %}
-                <a href="https:{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook" style="color:gray"></i></a>
+                <a href="https:{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook" style="color:blue"></i></a>
             {% endif %}
             &nbsp;&nbsp;
             {% if profile.instagram_link %}
-                <a href="https:{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color:gray"></i></a>
+                <a href="https:{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color:blue"></i></a>
             {% endif %}
             <br/<br/>
 
