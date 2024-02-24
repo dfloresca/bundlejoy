@@ -53,6 +53,23 @@
                 <img src="{{ profile.profile_image.url }}" class="rounded-circle .img-fluid" width="auto" height="200"/>
             {% endif %}
             <br/><br/>
+            {% if profile.homepage_link %}
+                <a href="https:{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color:gray"></i></a>
+            {% endif %}
+            &nbsp;&nbsp;
+            {% if profile.facebook_link %}
+                <a href="https:{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook" style="color:gray"></i></a>
+            {% endif %}
+            &nbsp;&nbsp;
+            {% if profile.instagram_link %}
+                <a href="https:{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color:gray"></i></a>
+            {% endif %}
+            <br/<br/>
+
+            {% if profile.profile_bio %}
+                <p align="justify">{{ profile.profile_bio }}</p>
+            {% endif %}
+            
             <div class="card">
                 <h5 class="card-header">Follows</h5>
                 <div class="card-body">
