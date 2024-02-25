@@ -61,20 +61,32 @@
             
             {% if profile.profile_image %}
                 <img src="{{ profile.profile_image.url }}" class="rounded-circle .img-fluid" width="auto" height="200"/>
+            {% else %}
+                <img src="{% static 'images/user.jpeg' %}" width=50 height=50 class="img-fluid rounded-start" alt="{{profile.user.username}}"/>
             {% endif %}
             <br/><br/>
+            {% if profile.user.first_name %}
+                <p>{{ profile.user.first_name }}
+            {% endif %}
+            {% if profile.user.last_name %}
+                {{ profile.user.last_name }}</p>
+            {% endif %}
+            <br/>
+            {% if profile.user.email %}
+                <p>{{ profile.user.email }}</p>
+            {% endif %}
             {% if profile.homepage_link %}
-                <a href="{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color:blue"></i></a>
+                <a href="https://www.{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color:blue"></i></a>
             {% endif %}
             &nbsp;&nbsp;
             {% if profile.facebook_link %}
-                <a href="{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook" style="color:blue"></i></a>
+                <a href="https://www.{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook" style="color:blue"></i></a>
             {% endif %}
             &nbsp;&nbsp;
             {% if profile.instagram_link %}
-                <a href="{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color:blue"></i></a>
+                <a href="https://www.{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color:blue"></i></a>
             {% endif %}
-            <br/<br/>
+            <br/><br/>
 
             {% if profile.profile_bio %}
                 <p align="justify">{{ profile.profile_bio }}</p>
