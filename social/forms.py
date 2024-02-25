@@ -14,8 +14,10 @@ class PostForm(forms.ModelForm):
         ),
         label="",
         )
+    post_image = forms.ImageField(label="Post Image", required=False)
     class Meta:
         model = Post
+        fields = ( 'body', 'post_image')  #
         exclude = ("user","likes", )
 
 class SignUpForm(UserCreationForm):
