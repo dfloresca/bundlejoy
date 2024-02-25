@@ -150,3 +150,25 @@ def post_delete(request, pk):
     else:
         messages.success(request, ("Please login to continue"))
         return redirect(request.META.get('HTTP_REFERER'))
+    
+def post_edit(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=pk)
+        if request.user.username == post.user.username:
+            form = PostForm(request.POST or None,  request.FILES or None, instance=post)
+            if request.method == "POST":
+                if form.is_valid():
+                    post = form.save(commit=False)
+                    post.user = request.user
+                    post.save()
+                    messages.success(request, ("Your Post has been updated"))
+                    return redirect('home')
+            else:
+                return render(request, 'edit_post.html', {'form':form, 'post':post})        
+        else:
+            messages.success(request, ("That's not your post"))
+            return redirect('home')
+    else:
+        messages.success(request, ("Please login to continue"))
+        return redirect(request.META.get('home'))
+
