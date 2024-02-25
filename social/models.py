@@ -12,6 +12,8 @@ class Post(models.Model):
     body = models.CharField(max_length=250)
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="post_like",  blank=True)
+    post_image = models.ImageField(null=True, blank=True, upload_to="images/")
+
 
     #keep track or count of likes
     def number_of_likes(self):
