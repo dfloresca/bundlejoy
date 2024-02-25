@@ -13,32 +13,63 @@
             <div class="alert alert-dark" role="alert">
                 <div class="container">
                     <div class="row">
-                        <div class="col-1">
+                        <!-- <div class="col-1">
                             {% if post.user.profile.profile_image %}
                                 <img src="{{ post.user.profile.profile_image.url }}" width=50 height=50 class="img-fluid rounded-start" alt="{{profile.user.username}}"/>
                                 {% else %}
                                 <img src="{% static 'images/user.jpeg' %}" width=50 height=50 class="img-fluid rounded-start" alt="{{profile.user.username}}"/>
                             {% endif %}
-                        </div>
+                        </div> -->
 
                         <div class="col-11">
-                            {{ post.body }} <br/>
+                            <!-- {{ post.body }} <br/>
                         <small class="text-muted">
                             ({{ post.created_at }}) by 
                             @{{ post.user.username }}
                             &nbsp;&nbsp; 
                             {{ post.number_of_likes }} 
+                            {% if user in post.likes.all %}
+                                <a href="{% url 'post_like' post.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
+                            {% else %} 
+                                <a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
+                            {% endif %}
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="{% url 'post_show' post.id %}">
+                                <i class="fa-solid fa-share" style="color:blue"></i>
+                            </a>
+                            </small> -->
+
+                            <div class="card mb-3">
+                                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                                {% if post.post_image %}
+                                <img src="{{ post.post_image.url }}" width=50 height=50 class="card-img-top img-fluid rounded-start" alt="{{profile.user.username}}"/>
+                                {% else %}
+                                <!-- <img src="{% static 'images/user.jpeg' %}" width=50 height=50 class="card-img-top img-fluid rounded-start" alt="{{profile.user.username}}"/> -->
+                            {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">Post</h5>
+                                    <p class="card-text">{{ post.body }} <br/></p>
+                                    <p class="card-text"><small class="text-body-secondary">
+                                        ({{ post.created_at }}) by 
+                                        @{{ post.user.username }}
+                                        &nbsp;&nbsp; 
+                                        {{ post.number_of_likes }}
+                                        {% if user in post.likes.all %}
+                                            <a href="{% url 'post_like' post.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
+                                        {% else %} 
+                                            <a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
+                                        {% endif %}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <a href="{% url 'post_show' post.id %}">
+                                            <i class="fa-solid fa-share" style="color:blue"></i>
+                                        </a>
+                                        
+                                    </small></p>
+                                </div>
+                            </div>
+                            
+
                         
-                        {% if user in post.likes.all %}
-                            <a href="{% url 'post_like' post.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
-                        {% else %} 
-                            <a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
-                        {% endif %}
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="{% url 'post_show' post.id %}">
-                            <i class="fa-solid fa-share" style="color:blue"></i>
-                        </a>
-                        </small>
                         </div> <br /> <br />
                     </div>
                 </div>
@@ -48,7 +79,7 @@
         <div class="col-4">
             <br /><br /><br />
             {% if form %}
-            <form method=POST>
+            <form method=POST action="" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn btn-secondary">Create Post</button>
