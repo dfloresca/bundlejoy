@@ -7,9 +7,10 @@ from django.db.models.signals import post_save
 class Post(models.Model):
     user = models.ForeignKey(
         User, related_name="posts",
-        on_delete=models.DO_NOTHING
+        on_delete=models.CASCADE
     )
-    body = models.CharField(max_length=250)
+    title = models.CharField(max_length=200)
+    body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name="post_like",  blank=True)
     post_image = models.ImageField(null=True, blank=True, upload_to="images/")
@@ -23,6 +24,7 @@ class Post(models.Model):
     def __str__(self):
         return(
             f"{self.user}"
+            f"{self.title}"
             f"({self.created_at: %Y-%m-%d %H:%M}):"
             f"{self.body}..."
         )
@@ -59,3 +61,11 @@ def create_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_profile, sender=User)
 
+class Comment(models.Model):
+    post =  models.ForeignKey('Post', related_name="comments", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    # def __str__(self):
+    #     return '%s - %s' % (self.post.title)
