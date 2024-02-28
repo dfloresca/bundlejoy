@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
-
 # Create your views here. 
 def home(request):
     if request.user.is_authenticated:
@@ -24,8 +23,9 @@ def home(request):
         posts = Post.objects.all().order_by("-created_at")
         return render(request, 'home.html', {"posts": posts, "form": form})
     else:
-        posts = Post.objects.all().order_by("-created_at")
-        return render(request, 'home.html', {"posts": posts})
+        # posts = Post.objects.all().order_by("-created_at")
+        # return render(request, 'home.html', {"posts": posts})
+        return redirect('login')
 
 def profile_list(request):
     if request.user.is_authenticated:
