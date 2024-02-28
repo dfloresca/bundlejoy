@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 
 class PostForm(forms.ModelForm):
+    title = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title'}))
     body = forms.CharField(required=True,
         widget=forms.widgets.Textarea(
             attrs={
@@ -17,7 +18,7 @@ class PostForm(forms.ModelForm):
     post_image = forms.ImageField(label="Post Image", required=False)
     class Meta:
         model = Post
-        fields = ( 'body', 'post_image')  #
+        fields = ( 'title', 'body', 'post_image')  #
         exclude = ("user","likes", )
 
 class SignUpForm(UserCreationForm):

@@ -60,9 +60,9 @@
                                             <a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
                                         {% endif %}
                                         &nbsp;&nbsp;&nbsp;&nbsp;
+                                        {{ post.comments.count}}
                                         <a href="{% url 'post_show' post.id %}">
-                                            <i class="fa-solid fa-share" style="color:blue"></i>
-                                        </a>
+                                            <i class="fa-regular fa-comment"></i></a>
                                         
                                     </small></p>
                                 </div>

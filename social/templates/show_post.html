@@ -70,7 +70,7 @@
         </div>
         <h4>Comments: {{ post.comments.count}}</h4>
         {% if not post.comments.all %}
-            No comments yet <a href="#">Add One</a>
+            
             {% if request.user.is_authenticated %}
             <form method="POST" action="{% url 'comment' post.id %}">
                 {% csrf_token %}
@@ -82,7 +82,7 @@
             {% endif %}
         {% else %}
 
-        <a href="">Add Comment</a>
+        
         {% if request.user.is_authenticated %}
         <form method="POST" action="{% url 'comment' post.id %}">
             {% csrf_token %}
@@ -107,7 +107,7 @@
             {% endfor %}
         {% endif %}
         <br/><br/>
-        <a href="">Add Comment</a>
+        
         <br/><br/>
         <div class="col-4">
             <br /><br /><br />
