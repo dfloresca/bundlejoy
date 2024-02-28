@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 {% block content %}
 
 {% if profile %}
@@ -73,18 +74,18 @@
             {% endif %}
             <br/>
             {% if profile.user.email %}
-                <p>{{ profile.user.email }}</p>
+                <p>{{ profile.user.email }} </p>
             {% endif %}
             {% if profile.homepage_link %}
-                <a href="https://www.{{ profile.homepage_link }}" target="new"><i class="fa-solid fa-link" style="color:blue"></i></a>
+                <a href="{{ profile.homepage_link|ensure_scheme }}" target="new"><i class="fa-solid fa-link" style="color:blue"></i></a>
             {% endif %}
             &nbsp;&nbsp;
             {% if profile.facebook_link %}
-                <a href="https://www.{{ profile.facebook_link }}" target="new"><i class="fa-brands fa-facebook" style="color:blue"></i></a>
+                <a href="{{ profile.facebook_link|ensure_scheme }}" target="new"><i class="fa-brands fa-facebook" style="color:blue"></i></a>
             {% endif %}
             &nbsp;&nbsp;
             {% if profile.instagram_link %}
-                <a href="https://www.{{ profile.instagram_link }}" target="new"><i class="fa-brands fa-instagram" style="color:blue"></i></a>
+                <a href="{{ profile.instagram_link|ensure_scheme }}" target="new"><i class="fa-brands fa-instagram" style="color:blue"></i></a>
             {% endif %}
             <br/><br/>
 

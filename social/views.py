@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+
 # Create your views here. 
 def home(request):
     if request.user.is_authenticated:
@@ -63,7 +64,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, ("You have been logged in"))
+            messages.success(request, ("Welcome Back!! \n enJoy"))
             return redirect('home')
         else:
             messages.success(request, ("There was an error, please try again"))
@@ -90,7 +91,7 @@ def register_user(request):
             # Login User
             user =  authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, ("Thank you for registering. \n Welcome to our app"))
+            messages.success(request, ("Thank you for registering. \n Welcome to our app \n let's share some Joy \n enJoy"))
             return redirect('home')
     return render(request, 'register.html', {'form':form})
     
@@ -104,7 +105,7 @@ def update_user(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-
+            
             login(request, current_user)
             messages.success(request, ("Your profile has been updated"))
             return redirect('home')

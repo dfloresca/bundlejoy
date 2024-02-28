@@ -1,1 +1,1 @@
-web: gunicorn bundlejoy.wsgi
+web: gunicorn bundlejoy.wsgi --log-file -
