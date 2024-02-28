@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Profile, Post
+from .models import Profile, Post, Comment
 from .forms import PostForm, SignUpForm, UserEditForm, ProfilePicForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 # Create your views here. 
@@ -172,3 +173,15 @@ def post_edit(request, pk):
         messages.success(request, ("Please login to continue"))
         return redirect(request.META.get('home'))
 
+def comment(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, id=pk)
+        # A Form for a Comment Model
+        if request.method == 'POST':
+            comment = request.POST['comment']
+            post.comments.create(user=request.user, body=comment, date_added=timezone.now())
+            messages.success(request, f'Comment added successfully!')
+            return redirect(request.META.get('HTTP_REFERER', 'home'))
+    else:
+        messages.success(request, f'You must be logged in to add comments.')
+        return redirect('home')
