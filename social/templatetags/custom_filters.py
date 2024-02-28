@@ -9,5 +9,5 @@ def ensure_scheme(url):
     if parsed.scheme:
         return url
     else:
-        return 'http://' + url
+        return 'https://' + url
 
