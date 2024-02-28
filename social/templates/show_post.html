@@ -60,8 +60,7 @@
                                     <a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
                                 {% endif %}
                                 &nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="{% url 'post_show' post.id %}">
-                                    <i class="fa-solid fa-share" style="color:blue"></i></a>
+                                
                             </small></p>
                         </div>
                     </div>
@@ -69,15 +68,49 @@
                 </div>
             </div> <br /> <br />
         </div>
-        <div class="col-4">
-            <br /><br /><br />
-            {% if form %}
-            <form method=POST>
+        <h4>Comments: {{ post.comments.count}}</h4>
+        {% if not post.comments.all %}
+            No comments yet <a href="#">Add One</a>
+            {% if request.user.is_authenticated %}
+            <form method="POST" action="{% url 'comment' post.id %}">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-secondary">Create Post</button>
+                <div class="input-group m-0">
+                    <input type="text" class="form-control" placeholder="Add a Comment" name="comment" aria-label="Add a comment" aria-describedby="button-addon2" required="true">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
+                </div>
             </form>
             {% endif %}
+        {% else %}
+
+        <a href="">Add Comment</a>
+        {% if request.user.is_authenticated %}
+        <form method="POST" action="{% url 'comment' post.id %}">
+            {% csrf_token %}
+            <div class="input-group m-0">
+                <input type="text" class="form-control" placeholder="Add a Comment" name="comment" aria-label="Add a comment" aria-describedby="button-addon2" required="true">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
+            </div>
+        </form>
+
+        {% endif %}
+        <br/>
+            {% for comment in post.comments.all %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Comment</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ comment.user.first_name }} {{ comment.user.last_name }} | {{ comment.date_added }}</h6>
+                    <p class="card-text">{{ comment.body }}</p>
+                    <a href="{% url 'profile' comment.user.id %}" class="card-link">{{ comment.user.username}}</a>
+                    <a href="#" class="card-link"></a>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <br/><br/>
+        <a href="">Add Comment</a>
+        <br/><br/>
+        <div class="col-4">
+            <br /><br /><br />
         </div>
     </div>
 </div>
