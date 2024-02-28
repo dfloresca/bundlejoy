@@ -136,6 +136,9 @@ def post_show(request, pk):
             else:
                 messages.success(request, ("That post does not exist"))
                 return redirect('home')
+        else:
+            messages.success(request, ("You must be logged in to do that"))
+            return redirect('home')
             
 def post_delete(request, pk):
     if request.user.is_authenticated:
