@@ -189,3 +189,19 @@ def comment(request, pk):
     else:
         messages.success(request, f'You must be logged in to add comments.')
         return redirect('home')
+    
+def comment_delete(request, pk):
+    if request.user.is_authenticated:
+        comment = get_object_or_404(Comment, id=pk)
+        # Check to see if it is your comment
+        if request.user.username == comment.user.username:
+            # Delete the Comment
+            comment.delete()
+            messages.success(request, ("The comment has been deleted"))
+            return redirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.success(request, ("That's not your comment"))
+            return redirect('home')
+    else:
+        messages.success(request, ("Please login to continue"))
+        return redirect(request.META.get('HTTP_REFERER'))
