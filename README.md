@@ -9,6 +9,12 @@
 BundleJoy is a social site that is designed for sharing our precious bundles of joy with each other. While sharing we are able to also comment on those that bring others joy.
 
 
+### `Technologies Used`
+* Django
+* Postgres
+* Bootstrap
+* S3  Bucket for Static
+
 ### Installation
 
 Fork and clone the repository
