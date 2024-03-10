@@ -82,31 +82,31 @@
             {% endif %}
         {% else %}
 
-        
-        {% if request.user.is_authenticated %}
-        <form method="POST" action="{% url 'comment' post.id %}">
-            {% csrf_token %}
-            <div class="input-group m-0">
-                <input type="text" class="form-control" placeholder="Add a Comment" name="comment" aria-label="Add a comment" aria-describedby="button-addon2" required="true">
-                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
-            </div>
-        </form>
-
-        {% endif %}
-        <br/>
-            {% for comment in post.comments.all %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Comment</h5>
-                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ comment.user.first_name }} {{ comment.user.last_name }} | {{ comment.date_added }}</h6>
-                    <p class="card-text">{{ comment.body }}</p>
-                    <a href="{% url 'profile' comment.user.id %}" class="card-link">{{ comment.user.username}}</a>
-                    {% if comment.user == request.user %}
-                    <a href="{% url 'comment_delete' comment.id %}" class="card-link"><i class="fa-solid fa-trash" style="color: blue"></i></a>
-                    {% endif %}
+            
+            {% if request.user.is_authenticated %}
+            <form method="POST" action="{% url 'comment' post.id %}">
+                {% csrf_token %}
+                <div class="input-group m-0">
+                    <input type="text" class="form-control" placeholder="Add a Comment" name="comment" aria-label="Add a comment" aria-describedby="button-addon2" required="true">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
                 </div>
-            </div>
-            {% endfor %}
+            </form>
+
+            {% endif %}
+            <br/>
+                {% for comment in post.comments.all %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Comment</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ comment.user.first_name }} {{ comment.user.last_name }} | {{ comment.date_added }}</h6>
+                        <p class="card-text">{{ comment.body }}</p>
+                        <a href="{% url 'profile' comment.user.id %}" class="card-link">{{ comment.user.username}}</a>
+                        {% if comment.user == request.user %}
+                            <a href="{% url 'comment_delete' comment.id %}" class="card-link"><i class="fa-solid fa-trash" style="color: blue"></i></a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
         {% endif %}
         <br/><br/>
         
