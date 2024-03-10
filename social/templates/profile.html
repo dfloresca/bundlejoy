@@ -65,15 +65,10 @@
             {% else %}
                 <img src="{% static 'images/user.jpeg' %}" width=50 height=50 class="img-fluid rounded-start" alt="{{profile.user.username}}"/>
             {% endif %}
-            <br/><br/>
-            {% if profile.user.first_name %}
-                <p>{{ profile.user.first_name }}
-            {% endif %}
-            {% if profile.user.last_name %}
-                {{ profile.user.last_name }}</p>
-            {% endif %}
             <br/>
-            {% if profile.user.email %}
+            {% if profile %}
+                <p>{{ profile.user.first_name }}</p>
+                <p>{{ profile.user.last_name }}</p>
                 <p>{{ profile.user.email }} </p>
             {% endif %}
             {% if profile.homepage_link %}
