@@ -66,6 +66,3 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     body = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
-
-    # def __str__(self):
-    #     return '%s - %s' % (self.post.title)
