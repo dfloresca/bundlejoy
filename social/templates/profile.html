@@ -88,34 +88,8 @@
                 <p align="justify">{{ profile.profile_bio }}</p>
             {% endif %}
             
-            <div class="card">
-                <h5 class="card-header">Follows</h5>
-                <div class="card-body">
+            {% include 'partials/follow.html' %}
 
-                    <p class="card-text">
-                        {% for following in profile.follows.all %}
-                        <a href="{% url 'profile' following.user.id %}">@{{ following }}</a> <br />
-                        {% endfor %}
-                    </p>
-
-                </div>
-            </div>
-
-            <br /><br />
-            <div class="card">
-                <h5 class="card-header">Followed By</h5>
-                <div class="card-body">
-
-                    <p class="card-text">
-                        {% for following in profile.followed_by.all %}
-                        <a href="{% url 'profile' following.user.id %}">
-                            @{{ following }}</a> <br />
-                        {% endfor %}
-                    </p>
-
-                </div>
-            </div>
-            <br />
             <form method=POST>
                 {% csrf_token %}
                 {% if profile in user.profile.follows.all %}
