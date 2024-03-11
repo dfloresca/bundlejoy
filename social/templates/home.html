@@ -15,33 +15,8 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col-11">
-                                    <div class="card mb-3">
-                                        {% if post.post_image %}
-                                            <img src="{{ post.post_image.url }}" width=50 height=50 class="card-img-top img-fluid rounded-start" alt="{{profile.user.username}}"/>
-                                        {% endif %}
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ post.title}} </h5>
-                                            <p class="card-text">{{ post.body }} </p>
-                                            <br/>
-                                            <p class="card-text">
-                                                <small class="text-body-secondary">
-                                                    ({{ post.created_at }}) by 
-                                                    @{{ post.user.username }}
-                                                    &nbsp;&nbsp; 
-                                                    {{ post.number_of_likes }}
-                                                    {% if user in post.likes.all %}
-                                                        <a href="{% url 'post_like' post.id %}"><i class="fa-solid fa-heart" style="color:red"></i></a>
-                                                    {% else %} 
-                                                        <a href="{% url 'post_like' post.id %}"><i class="fa fa-heart-o" style="color:red"></i></a>
-                                                    {% endif %}
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;
-                                                    {{ post.comments.count}}
-                                                    <a href="{% url 'post_show' post.id %}">
-                                                    <i class="fa-regular fa-comment"></i></a>
-                                                </small>
-                                            </p>
-                                        </div>
-                                    </div>
+                                    {% include 'partials/post.html' %}
+                                    
                                 </div> 
                                 <br /> <br />
                             </div>
