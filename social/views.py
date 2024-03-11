@@ -12,6 +12,7 @@ from django.utils import timezone
 # Create your views here. 
 def home(request):
     if request.user.is_authenticated:
+        show_comment = True
         form = PostForm(request.POST or None,  request.FILES or None)
         if request.method == "POST":
             if form.is_valid():
@@ -21,7 +22,7 @@ def home(request):
                 messages.success(request, ("Your Post has posted"))
                 return redirect('home')
         posts = Post.objects.all().order_by("-created_at")
-        return render(request, 'home.html', {"posts": posts, "form": form})
+        return render(request, 'home.html', {"posts": posts, "form": form, "show_comment": show_comment})
     else:
         # posts = Post.objects.all().order_by("-created_at")
         # return render(request, 'home.html', {"posts": posts})
