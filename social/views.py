@@ -127,34 +127,28 @@ def post_like(request, pk):
         post.likes.add(request.user)
     return redirect(request.META.get('HTTP_REFERER'))
 
-
+@permission_required("post_show", login_url="/login/")
 def post_show(request, pk):
-        if request.user.is_authenticated:
-            post = get_object_or_404(Post, id=pk)
-            if post:
-                return render(request, 'show_post.html', {'post':post})
-            else:
-                messages.success(request, ("That post does not exist"))
-                return redirect('home')
-        else:
-            messages.success(request, ("You must be logged in to do that"))
-            return redirect('home')
-            
-def post_delete(request, pk):
-    if request.user.is_authenticated:
-        post = get_object_or_404(Post, id=pk)
-        # Check to see if it is your post
-        if request.user.username == post.user.username:
-            # Delete the Post
-            post.delete()
-            messages.success(request, ("The post has been deleted"))
-            return redirect(request.META.get('HTTP_REFERER'))
-        else:
-            messages.success(request, ("That's not your post"))
-            return redirect('home')
+    post = get_object_or_404(Post, id=pk)
+    if post:
+        return render(request, 'show_post.html', {'post':post})
     else:
-        messages.success(request, ("Please login to continue"))
+        messages.success(request, ("That post does not exist"))
+        return redirect('home')
+        
+@permission_required("post_delete", login_url="/login/")            
+def post_delete(request, pk):
+    post = get_object_or_404(Post, id=pk)
+    # Check to see if it is your post
+    if request.user.username == post.user.username:
+        # Delete the Post
+        post.delete()
+        messages.success(request, ("The post has been deleted"))
         return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.success(request, ("That's not your post"))
+        return redirect('home')
+    
     
 def post_edit(request, pk):
     if request.user.is_authenticated:
