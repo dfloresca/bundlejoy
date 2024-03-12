@@ -100,40 +100,34 @@ def register_user(request):
             messages.success(request, ("Thank you for registering. \n Welcome to our app \n let's share some Joy \n enJoy"))
             return redirect('home')
     return render(request, 'register.html', {'form':form})
-    
+
+@permission_required("update_user", login_url="/login/")    
 def update_user(request):
-    if request.user.is_authenticated:
-        current_user = User.objects.get(id=request.user.id)
-        profile_user = Profile.objects.get(user__id=request.user.id)
+    current_user = User.objects.get(id=request.user.id)
+    profile_user = Profile.objects.get(user__id=request.user.id)
+    
+    user_form = UserEditForm(request.POST or None, request.FILES or None,  instance=current_user)
+    profile_form = ProfilePicForm(request.POST or None, request.FILES or None, instance=profile_user)
+    if user_form.is_valid() and profile_form.is_valid():
+        user_form.save()
+        profile_form.save()
         
-        user_form = UserEditForm(request.POST or None, request.FILES or None,  instance=current_user)
-        profile_form = ProfilePicForm(request.POST or None, request.FILES or None, instance=profile_user)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            
-            login(request, current_user)
-            messages.success(request, ("Your profile has been updated"))
-            return redirect('profile', pk=request.user.id)
+        login(request, current_user)
+        messages.success(request, ("Your profile has been updated"))
+        return redirect('profile', pk=request.user.id)
 
-        return render(request, 'update_user.html', {'user_form':user_form, 'profile_form':profile_form})
-    else:
-        messages.success(request, ("You Must Be logged on. \n Returning Home"))
-        return redirect('home')
+    return render(request, 'update_user.html', {'user_form':user_form, 'profile_form':profile_form})
     
+@permission_required("post_like", login_url="/login/")
 def post_like(request, pk):
-    if request.user.is_authenticated:
-        post = get_object_or_404(Post, id=pk)
-        if post.likes.filter(id=request.user.id):
-            post.likes.remove(request.user)
-        else:
-            post.likes.add(request.user)
-        return redirect(request.META.get('HTTP_REFERER'))
-
+    post = get_object_or_404(Post, id=pk)
+    if post.likes.filter(id=request.user.id):
+        post.likes.remove(request.user)
     else:
-        messages.success(request, ("you Must be logged in"))
-        return redirect('home')
-    
+        post.likes.add(request.user)
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
 def post_show(request, pk):
         if request.user.is_authenticated:
             post = get_object_or_404(Post, id=pk)
