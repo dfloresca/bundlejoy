@@ -34,8 +34,8 @@ def home(request):
             post.save()
             messages.success(request, ("Your Post has posted"))
             return redirect('home') 
-        posts = Post.objects.all().order_by("-created_at")
-        return render(request, 'home.html', {"posts": posts, "form": form, "show_comment": show_comment})
+    posts = Post.objects.all().order_by("-created_at")
+    return render(request, 'home.html', {"posts": posts, "form": form, "show_comment": show_comment})
     
 
 @permission_required("profile_list", login_url="/login/")
@@ -177,19 +177,15 @@ def comment(request, pk):
         messages.success(request, f'Comment added successfully!')
         return redirect(request.META.get('HTTP_REFERER', 'home'))
     
-    
+@permission_required("comment_delete", login_url="/login/")
 def comment_delete(request, pk):
-    if request.user.is_authenticated:
-        comment = get_object_or_404(Comment, id=pk)
-        # Check to see if it is your comment
-        if request.user.username == comment.user.username:
-            # Delete the Comment
-            comment.delete()
-            messages.success(request, ("The comment has been deleted"))
-            return redirect(request.META.get('HTTP_REFERER'))
-        else:
-            messages.success(request, ("That's not your comment"))
-            return redirect('home')
-    else:
-        messages.success(request, ("Please login to continue"))
+    comment = get_object_or_404(Comment, id=pk)
+    # Check to see if it is your comment
+    if request.user.username == comment.user.username:
+        # Delete the Comment
+        comment.delete()
+        messages.success(request, ("The comment has been deleted"))
         return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.success(request, ("That's not your comment"))
+        return redirect('home')
