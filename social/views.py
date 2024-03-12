@@ -7,34 +7,42 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Profile, Post, Comment
+from .forms import PostForm, SignUpForm, UserEditForm, ProfilePicForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from django.contrib.auth.models import User
+from django.utils import timezone
+from django.contrib.auth.decorators import permission_required
 
 
-# Create your views here. 
+# Create your views here.
+
+@permission_required("home", login_url="/login/")
 def home(request):
-    if request.user.is_authenticated:
-        show_comment = True
-        form = PostForm(request.POST or None,  request.FILES or None)
-        if request.method == "POST":
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.user = request.user
-                post.save()
-                messages.success(request, ("Your Post has posted"))
-                return redirect('home')
+    show_comment = True
+    form = PostForm(request.POST or None,  request.FILES or None)
+    if request.method == "POST":
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            messages.success(request, ("Your Post has posted"))
+            return redirect('home') 
         posts = Post.objects.all().order_by("-created_at")
         return render(request, 'home.html', {"posts": posts, "form": form, "show_comment": show_comment})
-    else:
-        # posts = Post.objects.all().order_by("-created_at")
-        # return render(request, 'home.html', {"posts": posts})
-        return redirect('login')
+    
 
+@permission_required("home", login_url="/login/")
 def profile_list(request):
-    if request.user.is_authenticated:
-        profiles = Profile.objects.exclude(user=request.user)
-        return render(request, 'profile_list.html', { 'profiles': profiles})
-    else:
-        messages.success(request, ("You must be logged in to view this page"))
-        return redirect('home')
+    profiles = Profile.objects.exclude(user=request.user)
+    return render(request, 'profile_list.html', { 'profiles': profiles})
+    
     
 def profile(request, pk):
     if request.user.is_authenticated:
