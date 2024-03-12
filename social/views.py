@@ -167,18 +167,16 @@ def post_edit(request, pk):
         messages.success(request, ("That's not your post"))
         return redirect('home')
 
+@permission_required("comment", login_url="/login/")
 def comment(request, pk):
-    if request.user.is_authenticated:
-        post = get_object_or_404(Post, id=pk)
-        # A Form for a Comment Model
-        if request.method == 'POST':
-            comment = request.POST['comment']
-            post.comments.create(user=request.user, body=comment, date_added=timezone.now())
-            messages.success(request, f'Comment added successfully!')
-            return redirect(request.META.get('HTTP_REFERER', 'home'))
-    else:
-        messages.success(request, f'You must be logged in to add comments.')
-        return redirect('home')
+    post = get_object_or_404(Post, id=pk)
+    # A Form for a Comment Model
+    if request.method == 'POST':
+        comment = request.POST['comment']
+        post.comments.create(user=request.user, body=comment, date_added=timezone.now())
+        messages.success(request, f'Comment added successfully!')
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+    
     
 def comment_delete(request, pk):
     if request.user.is_authenticated:
