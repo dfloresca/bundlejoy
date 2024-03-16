@@ -42,7 +42,7 @@ def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, 'profile_list.html', { 'profiles': profiles})
     
-@permission_required("profile", login_url="/login/")    
+@login_required(login_url="/login/")    
 def profile(request, pk):
     profile = Profile.objects.get(user_id=pk)
     posts = Post.objects.filter(user_id=pk).order_by("-created_at")
