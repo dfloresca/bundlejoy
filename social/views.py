@@ -100,7 +100,7 @@ def register_user(request):
             return redirect('home')
     return render(request, 'register.html', {'form':form})
 
-@permission_required("update_user", login_url="/login/")    
+@login_required(login_url="/login/")    
 def update_user(request):
     current_user = User.objects.get(id=request.user.id)
     profile_user = Profile.objects.get(user__id=request.user.id)
