@@ -37,7 +37,7 @@ def home(request):
     return render(request, 'home.html', {"posts": posts, "form": form, "show_comment": show_comment})
     
 
-@permission_required("profile_list", login_url="/login/")
+@login_required(login_url="/login/")
 def profile_list(request):
     profiles = Profile.objects.exclude(user=request.user)
     return render(request, 'profile_list.html', { 'profiles': profiles})
