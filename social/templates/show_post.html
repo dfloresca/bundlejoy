@@ -28,7 +28,6 @@
             </form>
             {% endif %}
         {% else %}            
-            {% if request.user.is_authenticated %}
             <form method="POST" action="{% url 'comment' post.id %}">
                 {% csrf_token %}
                 <div class="input-group m-0">
@@ -36,7 +35,6 @@
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Comment</button>
                 </div>
             </form>
-            {% endif %}
             <br/>
                 {% for comment in post.comments.all %}
                 <div class="card">
