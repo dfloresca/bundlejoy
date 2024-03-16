@@ -3,7 +3,7 @@
     <img src="{{ post.post_image.url }}" width=50 height=50 class="card-img-top img-fluid rounded-start" alt="{{profile.user.username}}"/>                        
     {% endif %}
     <div class="card-body">
-        <h5 class="card-title">Post</h5>
+        <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text">
             {{ post.body }} 
         </p>
