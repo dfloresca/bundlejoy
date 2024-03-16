@@ -117,7 +117,7 @@ def update_user(request):
 
     return render(request, 'update_user.html', {'user_form':user_form, 'profile_form':profile_form})
     
-@permission_required("post_like", login_url="/login/")
+@login_required(login_url="/login/")
 def post_like(request, pk):
     post = get_object_or_404(Post, id=pk)
     if post.likes.filter(id=request.user.id):
