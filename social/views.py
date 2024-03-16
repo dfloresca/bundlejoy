@@ -18,12 +18,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 
 
 # Create your views here.
-
-@permission_required("home", login_url="/login/")
+@login_required(login_url="/login/")
 def home(request):
     show_comment = True
     form = PostForm(request.POST or None,  request.FILES or None)
