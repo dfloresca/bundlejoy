@@ -126,7 +126,7 @@ def post_like(request, pk):
         post.likes.add(request.user)
     return redirect(request.META.get('HTTP_REFERER'))
 
-@permission_required("post_show", login_url="/login/")
+@login_required(login_url="/login/")
 def post_show(request, pk):
     post = get_object_or_404(Post, id=pk)
     if post:
@@ -135,7 +135,7 @@ def post_show(request, pk):
         messages.success(request, ("That post does not exist"))
         return redirect('home')
         
-@permission_required("post_delete", login_url="/login/")            
+@login_required(login_url="/login/")           
 def post_delete(request, pk):
     post = get_object_or_404(Post, id=pk)
     # Check to see if it is your post
@@ -148,7 +148,7 @@ def post_delete(request, pk):
         messages.success(request, ("That's not your post"))
         return redirect('home')
     
-@permission_required("post_edit", login_url="/login/")    
+@login_required(login_url="/login/")  
 def post_edit(request, pk):
     post = get_object_or_404(Post, id=pk)
     if request.user.username == post.user.username:
@@ -166,7 +166,7 @@ def post_edit(request, pk):
         messages.success(request, ("That's not your post"))
         return redirect('home')
 
-@permission_required("comment", login_url="/login/")
+@login_required(login_url="/login/")
 def comment(request, pk):
     post = get_object_or_404(Post, id=pk)
     # A Form for a Comment Model
@@ -176,7 +176,7 @@ def comment(request, pk):
         messages.success(request, f'Comment added successfully!')
         return redirect(request.META.get('HTTP_REFERER', 'home'))
     
-@permission_required("comment_delete", login_url="/login/")
+@login_required(login_url="/login/")
 def comment_delete(request, pk):
     comment = get_object_or_404(Comment, id=pk)
     # Check to see if it is your comment
